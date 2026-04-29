@@ -5,4 +5,43 @@
 <h2>Bienvenue {{ app.user.email }}</h2>
 <p>Vous êtes connecté en tant qu'administrateur.</p>
 
+<div class="row g-3 mt-3">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <div class="fw-bold mb-2">Patients</div>
+            <a href="{{ path('app_admin_patient_index') }}" class="btn btn-outline-dark btn-sm">Voir la liste</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <div class="fw-bold mb-2">Médecins</div>
+            <a href="{{ path('app_admin_medecin_index') }}" class="btn btn-outline-dark btn-sm">Voir la liste</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <div class="fw-bold mb-2">Rendez-vous</div>
+            <a href="{{ path('app_admin_rendezvous_index') }}" class="btn btn-outline-dark btn-sm">Voir la liste</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <div class="fw-bold mb-2">Cabinets</div>
+            <a href="{{ path('app_admin_cabinet_index') }}" class="btn btn-outline-dark btn-sm">Voir la liste</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <div class="fw-bold mb-2">Médicaments</div>
+            <a href="{{ path('app_admin_medicament_index') }}" class="btn btn-outline-dark btn-sm">Voir la liste</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <div class="fw-bold mb-2">Spécialités</div>
+            <a href="{{ path('app_admin_specialite_index') }}" class="btn btn-outline-dark btn-sm">Voir la liste</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
