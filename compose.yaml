@@ -10,6 +10,5 @@ services:
       - doctofree_db_data:/var/lib/mysql
     ports:
       - "3306:3306"
-
 volumes:
   doctofree_db_data:

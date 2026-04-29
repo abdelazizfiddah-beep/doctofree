@@ -1,0 +1,162 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}{{ patient.nom }} {{ patient.prenom }}{% endblock %}
+{% block admin_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ patient.nom }} {{ patient.prenom }}</h2>
+    <a href="{{ path('app_admin_patient_index') }}" class="btn btn-outline-secondary btn-sm">Retour à la liste</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Informations personnelles</div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">ID</div>
+            <div class="col-sm-9">{{ patient.id }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Nom</div>
+            <div class="col-sm-9">{{ patient.nom }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Prénom</div>
+            <div class="col-sm-9">{{ patient.prenom }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Date de naissance</div>
+            <div class="col-sm-9">{{ patient.dateNaissance ? patient.dateNaissance|date('d/m/Y') : '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Téléphone</div>
+            <div class="col-sm-9">{{ patient.telephone ?? '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Email</div>
+            <div class="col-sm-9">{{ patient.email ?? '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">N° Sécurité sociale</div>
+            <div class="col-sm-9">{{ patient.numeroSecu ?? '—' }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-muted">Date d'inscription</div>
+            <div class="col-sm-9">{{ patient.dateInscription ? patient.dateInscription|date('d/m/Y') : '—' }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Rendez-vous et consultations</div>
+    <div class="card-body p-0">
+
+        {% if patient.listeRendezVous is empty %}
+            <div class="p-3 text-muted">Aucun rendez-vous.</div>
+        {% else %}
+            {% for rdv in patient.listeRendezVous %}
+            <div class="border-bottom p-3">
+
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="fw-bold">{{ rdv.dateHeure ? rdv.dateHeure|date('d/m/Y H:i') : '—' }}</div>
+                        <div class="text-muted" style="font-size:0.9rem">
+                            {{ rdv.dureeMinutes ?? '—' }} min —
+                            {{ rdv.statut ?? '—' }} —
+                            {{ rdv.motif ?? '—' }}
+                        </div>
+                        <div class="text-muted" style="font-size:0.9rem">
+                            Médecin :
+                            {% if rdv.medecin %}{{ rdv.medecin.nom }} {{ rdv.medecin.prenom }}{% else %}—{% endif %}
+                        </div>
+                    </div>
+                    {% if rdv.consultation %}
+                    <button class="btn btn-sm btn-outline-secondary"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#consult-{{ rdv.consultation.id }}">
+                        Voir la consultation
+                    </button>
+                    {% else %}
+                        <span class="text-muted" style="font-size:0.85rem">Pas de consultation</span>
+                    {% endif %}
+                </div>
+
+                {% if rdv.consultation %}
+                {% set c = rdv.consultation %}
+                <div class="collapse mt-3" id="consult-{{ c.id }}">
+                    <div class="bg-light rounded p-3">
+
+                        <div class="row mb-2">
+                            <div class="col-sm-3 text-muted">Diagnostic</div>
+                            <div class="col-sm-9">{{ c.diagnostic ?? '—' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-3 text-muted">Anamnèse</div>
+                            <div class="col-sm-9">{{ c.anamnese ?? '—' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-3 text-muted">Notes</div>
+                            <div class="col-sm-9">{{ c.notes ?? '—' }}</div>
+                        </div>
+
+                        {% if c.ordonnance %}
+                        {% set o = c.ordonnance %}
+                        <hr>
+                        <div class="fw-bold mb-2">Ordonnance</div>
+                        <div class="row mb-2">
+                            <div class="col-sm-3 text-muted">Date d'émission</div>
+                            <div class="col-sm-9">{{ o.dateEmission ? o.dateEmission|date('d/m/Y') : '—' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-3 text-muted">Date de validité</div>
+                            <div class="col-sm-9">{{ o.dateValidite ? o.dateValidite|date('d/m/Y') : '—' }}</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3 text-muted">Instructions</div>
+                            <div class="col-sm-9">{{ o.instructions ?? '—' }}</div>
+                        </div>
+
+                        {% if o.prescriptions is not empty %}
+                        <div class="fw-bold mb-2">Prescriptions</div>
+                        {% for p in o.prescriptions %}
+                        <div class="border rounded p-2 mb-2 bg-white">
+                            <div class="row mb-1">
+                                <div class="col-sm-3 text-muted">Médicament</div>
+                                <div class="col-sm-9">{{ p.medicament ? p.medicament.nom : '—' }}</div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3 text-muted">Dosage</div>
+                                <div class="col-sm-9">{{ p.medicament ? p.medicament.dosage : '—' }}</div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3 text-muted">Posologie</div>
+                                <div class="col-sm-9">{{ p.posologie ?? '—' }}</div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3 text-muted">Durée (jours)</div>
+                                <div class="col-sm-9">{{ p.dureeJours ?? '—' }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 text-muted">Fréquence</div>
+                                <div class="col-sm-9">{{ p.frequence ?? '—' }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                            <div class="text-muted">Aucune prescription.</div>
+                        {% endif %}
+
+                        {% else %}
+                            <div class="text-muted mt-2">Pas d'ordonnance pour cette consultation.</div>
+                        {% endif %}
+
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

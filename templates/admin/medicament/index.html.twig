@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Médicaments{% endblock %}
+{% block admin_content %}
+
+<h2 class="mb-4">Médicaments</h2>
+
+<div class="d-flex fw-bold border-bottom pb-2 mb-2 text-muted" style="font-size:0.85rem">
+    <div style="width:60px">ID</div>
+    <div style="width:200px">Nom</div>
+    <div style="width:180px">DCI</div>
+    <div style="width:140px">Forme</div>
+    <div class="flex-grow-1">Dosage</div>
+    <div></div>
+</div>
+
+{% for medicament in medicaments %}
+<div class="d-flex align-items-center border-bottom py-2">
+    <div style="width:60px">{{ medicament.id }}</div>
+    <div style="width:200px">{{ medicament.nom }}</div>
+    <div style="width:180px">{{ medicament.dci ?? '—' }}</div>
+    <div style="width:140px">{{ medicament.forme ?? '—' }}</div>
+    <div class="flex-grow-1">{{ medicament.dosage ?? '—' }}</div>
+    <div>
+        <a href="{{ path('app_admin_medicament_show', {id: medicament.id}) }}" class="btn btn-sm btn-outline-dark">Voir</a>
+    </div>
+</div>
+{% else %}
+<div class="text-muted py-3">Aucun médicament enregistré.</div>
+{% endfor %}
+
+{% endblock %}

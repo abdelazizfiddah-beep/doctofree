@@ -1,0 +1,73 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Rendez-vous #{{ rendezvous.id }}{% endblock %}
+{% block admin_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Rendez-vous #{{ rendezvous.id }}</h2>
+    <a href="{{ path('app_admin_rendezvous_index') }}" class="btn btn-outline-secondary btn-sm">Retour à la liste</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Informations</div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Date</div>
+            <div class="col-sm-9">{{ rendezvous.dateHeure ? rendezvous.dateHeure|date('d/m/Y H:i') : '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Durée</div>
+            <div class="col-sm-9">{{ rendezvous.dureeMinutes ?? '—' }} min</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Statut</div>
+            <div class="col-sm-9">{{ rendezvous.statut ?? '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Motif</div>
+            <div class="col-sm-9">{{ rendezvous.motif ?? '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Patient</div>
+            <div class="col-sm-9">
+                {% if rendezvous.patient %}
+                    <a href="{{ path('app_admin_patient_show', {id: rendezvous.patient.id}) }}">
+                        {{ rendezvous.patient.nom }} {{ rendezvous.patient.prenom }}
+                    </a>
+                {% else %}—{% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-muted">Médecin</div>
+            <div class="col-sm-9">
+                {% if rendezvous.medecin %}
+                    <a href="{{ path('app_admin_medecin_show', {id: rendezvous.medecin.id}) }}">
+                        {{ rendezvous.medecin.nom }} {{ rendezvous.medecin.prenom }}
+                    </a>
+                {% else %}—{% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if rendezvous.consultation %}
+{% set c = rendezvous.consultation %}
+<div class="card">
+    <div class="card-header">Consultation associée</div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Diagnostic</div>
+            <div class="col-sm-9">{{ c.diagnostic ?? '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Anamnèse</div>
+            <div class="col-sm-9">{{ c.anamnese ?? '—' }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-muted">Notes</div>
+            <div class="col-sm-9">{{ c.notes ?? '—' }}</div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

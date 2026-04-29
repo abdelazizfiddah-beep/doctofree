@@ -1,0 +1,51 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}{{ medecin.nom }} {{ medecin.prenom }}{% endblock %}
+{% block admin_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ medecin.nom }} {{ medecin.prenom }}</h2>
+    <a href="{{ path('app_admin_medecin_index') }}" class="btn btn-outline-secondary btn-sm">Retour à la liste</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Informations</div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">ID</div>
+            <div class="col-sm-9">{{ medecin.id }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">RPPS</div>
+            <div class="col-sm-9">{{ medecin.rpps ?? '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Téléphone</div>
+            <div class="col-sm-9">{{ medecin.telephone ?? '—' }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Email</div>
+            <div class="col-sm-9">{{ medecin.email ?? '—' }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-muted">Spécialités</div>
+            <div class="col-sm-9">
+                {% for spe in medecin.specialites %}
+                    <span class="badge bg-secondary me-1">{{ spe.libelle }}</span>
+                {% else %}—{% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Cabinets</div>
+    <div class="card-body p-0">
+        {% for cabinet in medecin.cabinets %}
+        <div class="border-bottom px-3 py-2">{{ cabinet.nom }}</div>
+        {% else %}
+        <div class="p-3 text-muted">Aucun cabinet.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Rendez-vous{% endblock %}
+{% block admin_content %}
+
+<h2 class="mb-4">Rendez-vous</h2>
+
+<div class="d-flex fw-bold border-bottom pb-2 mb-2 text-muted" style="font-size:0.85rem">
+    <div style="width:50px">ID</div>
+    <div style="width:150px">Date</div>
+    <div style="width:80px">Durée</div>
+    <div style="width:110px">Statut</div>
+    <div style="width:160px">Motif</div>
+    <div style="width:180px">Patient</div>
+    <div class="flex-grow-1">Médecin</div>
+    <div></div>
+</div>
+
+{% for rdv in rendezvous %}
+<div class="d-flex align-items-center border-bottom py-2">
+    <div style="width:50px">{{ rdv.id }}</div>
+    <div style="width:150px">{{ rdv.dateHeure ? rdv.dateHeure|date('d/m/Y H:i') : '—' }}</div>
+    <div style="width:80px">{{ rdv.dureeMinutes ?? '—' }} min</div>
+    <div style="width:110px">{{ rdv.statut ?? '—' }}</div>
+    <div style="width:160px">{{ rdv.motif ?? '—' }}</div>
+    <div style="width:180px">{{ rdv.patient ? rdv.patient.nom ~ ' ' ~ rdv.patient.prenom : '—' }}</div>
+    <div class="flex-grow-1">{{ rdv.medecin ? rdv.medecin.nom ~ ' ' ~ rdv.medecin.prenom : '—' }}</div>
+    <div>
+        <a href="{{ path('app_admin_rendezvous_show', {id: rdv.id}) }}" class="btn btn-sm btn-outline-dark">Voir</a>
+    </div>
+</div>
+{% else %}
+<div class="text-muted py-3">Aucun rendez-vous enregistré.</div>
+{% endfor %}
+
+{% endblock %}

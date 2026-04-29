@@ -1,0 +1,27 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Cabinets{% endblock %}
+{% block admin_content %}
+
+<h2 class="mb-4">Cabinets</h2>
+
+<div class="d-flex fw-bold border-bottom pb-2 mb-2 text-muted" style="font-size:0.85rem">
+    <div style="width:60px">ID</div>
+    <div style="width:220px">Nom</div>
+    <div class="flex-grow-1">Adresse</div>
+    <div></div>
+</div>
+
+{% for cabinet in cabinets %}
+<div class="d-flex align-items-center border-bottom py-2">
+    <div style="width:60px">{{ cabinet.id }}</div>
+    <div style="width:220px">{{ cabinet.nom }}</div>
+    <div class="flex-grow-1">{{ cabinet.adresse ?? '—' }}</div>
+    <div>
+        <a href="{{ path('app_admin_cabinet_show', {id: cabinet.id}) }}" class="btn btn-sm btn-outline-dark">Voir</a>
+    </div>
+</div>
+{% else %}
+<div class="text-muted py-3">Aucun cabinet enregistré.</div>
+{% endfor %}
+
+{% endblock %}

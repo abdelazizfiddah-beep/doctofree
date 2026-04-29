@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}{{ cabinet.nom }}{% endblock %}
+{% block admin_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ cabinet.nom }}</h2>
+    <a href="{{ path('app_admin_cabinet_index') }}" class="btn btn-outline-secondary btn-sm">Retour à la liste</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Informations</div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">ID</div>
+            <div class="col-sm-9">{{ cabinet.id }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Adresse</div>
+            <div class="col-sm-9">{{ cabinet.adresse ?? '—' }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-muted">Téléphone</div>
+            <div class="col-sm-9">{{ cabinet.telephone ?? '—' }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Médecins</div>
+    <div class="card-body p-0">
+        {% for medecin in cabinet.medecins %}
+        <div class="border-bottom px-3 py-2">{{ medecin.nom }} {{ medecin.prenom }}</div>
+        {% else %}
+        <div class="p-3 text-muted">Aucun médecin.</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

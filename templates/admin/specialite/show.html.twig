@@ -1,0 +1,24 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}{{ specialite.libelle }}{% endblock %}
+{% block admin_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ specialite.libelle }}</h2>
+    <a href="{{ path('app_admin_specialite_index') }}" class="btn btn-outline-secondary btn-sm">Retour à la liste</a>
+</div>
+
+<div class="card">
+    <div class="card-header">Informations</div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">ID</div>
+            <div class="col-sm-9">{{ specialite.id }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-muted">Libellé</div>
+            <div class="col-sm-9">{{ specialite.libelle }}</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

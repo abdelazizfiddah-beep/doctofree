@@ -1,0 +1,33 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Médecins{% endblock %}
+{% block admin_content %}
+
+<h2 class="mb-4">Médecins</h2>
+
+<div class="d-flex fw-bold border-bottom pb-2 mb-2 text-muted" style="font-size:0.85rem">
+    <div style="width:60px">ID</div>
+    <div style="width:160px">Nom</div>
+    <div style="width:160px">Prénom</div>
+    <div class="flex-grow-1">Spécialités</div>
+    <div></div>
+</div>
+
+{% for medecin in medecins %}
+<div class="d-flex align-items-center border-bottom py-2">
+    <div style="width:60px">{{ medecin.id }}</div>
+    <div style="width:160px">{{ medecin.nom }}</div>
+    <div style="width:160px">{{ medecin.prenom }}</div>
+    <div class="flex-grow-1">
+        {% for spe in medecin.specialites %}
+            <span class="badge bg-secondary me-1">{{ spe.libelle }}</span>
+        {% else %}—{% endfor %}
+    </div>
+    <div>
+        <a href="{{ path('app_admin_medecin_show', {id: medecin.id}) }}" class="btn btn-sm btn-outline-dark">Voir</a>
+    </div>
+</div>
+{% else %}
+<div class="text-muted py-3">Aucun médecin enregistré.</div>
+{% endfor %}
+
+{% endblock %}

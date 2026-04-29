@@ -1,0 +1,25 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Spécialités{% endblock %}
+{% block admin_content %}
+
+<h2 class="mb-4">Spécialités</h2>
+
+<div class="d-flex fw-bold border-bottom pb-2 mb-2 text-muted" style="font-size:0.85rem">
+    <div style="width:60px">ID</div>
+    <div class="flex-grow-1">Libellé</div>
+    <div></div>
+</div>
+
+{% for spe in specialites %}
+<div class="d-flex align-items-center border-bottom py-2">
+    <div style="width:60px">{{ spe.id }}</div>
+    <div class="flex-grow-1">{{ spe.libelle }}</div>
+    <div>
+        <a href="{{ path('app_admin_specialite_show', {id: spe.id}) }}" class="btn btn-sm btn-outline-dark">Voir</a>
+    </div>
+</div>
+{% else %}
+<div class="text-muted py-3">Aucune spécialité enregistrée.</div>
+{% endfor %}
+
+{% endblock %}
